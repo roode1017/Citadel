@@ -1,7 +1,7 @@
 """
 blockchain.py
 ─────────────
-Roode On-chain Commitment 모듈.
+Citadel On-chain Commitment 모듈.
 
 Base Sepolia testnet에 signal commitment hash를 기록하고
 트랜잭션 해시와 block explorer 링크를 반환한다.
@@ -43,12 +43,12 @@ BASE_SEPOLIA_CHAIN   = 84532
 BASE_SEPOLIA_EXPLORER = "https://sepolia.basescan.org"
 
 
-class RoodeChain:
+class CitadelChain:
     """
-    Roode On-chain Commitment 클라이언트.
+    Citadel On-chain Commitment 클라이언트.
 
     두 가지 모드:
-    1. REAL 모드  : ROODE_PRIVATE_KEY 환경변수 있으면 실제 TX 발송
+    1. REAL 모드  : CITADEL_PRIVATE_KEY 환경변수 있으면 실제 TX 발송
     2. DEMO 모드  : 없으면 deterministic fake TX (시연용, 명시적으로 표기)
     """
 
@@ -56,7 +56,7 @@ class RoodeChain:
         self.rpc_url    = rpc_url
         self.chain_id   = BASE_SEPOLIA_CHAIN
         self.explorer   = BASE_SEPOLIA_EXPLORER
-        self.private_key = private_key or os.environ.get("ROODE_PRIVATE_KEY")
+        self.private_key = private_key or os.environ.get("CITADEL_PRIVATE_KEY")
 
         self.real_mode = False
         self.w3        = None
@@ -74,7 +74,7 @@ class RoodeChain:
 
     # ─── 공개 API ─────────────────────────────────────────────────────────
 
-    def commit(self, commitment_hash: str, salt: str = "roode_v1") -> dict:
+    def commit(self, commitment_hash: str, salt: str = "citadel_v1") -> dict:
         """
         On-chain commitment 기록.
 
@@ -146,7 +146,7 @@ class RoodeChain:
 # ── CLI ───────────────────────────────────────────────────────────────────
 if __name__ == "__main__":
     import sys
-    chain = RoodeChain()
+    chain = CitadelChain()
     print(f"Mode: {chain.mode_label}")
 
     test_hash = "0x" + hashlib.sha256(b"test_signal_seed=42|version=1|salt=demo").hexdigest()
@@ -156,9 +156,9 @@ if __name__ == "__main__":
     # Commit-reveal 검증 테스트
     verified = chain.verify_commitment(
         signal_seed=42, signal_version=1,
-        salt="roode_demo_salt_v1",
+        salt="citadel_demo_salt_v1",
         on_chain_hash="0x" + hashlib.sha256(
-            b"seed=42|version=1|salt=roode_demo_salt_v1"
+            b"seed=42|version=1|salt=citadel_demo_salt_v1"
         ).hexdigest()
     )
     print(f"\nCommit-reveal verification: {'✅ PASS' if verified else '❌ FAIL'}")

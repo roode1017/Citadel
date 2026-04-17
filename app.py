@@ -1,5 +1,5 @@
 """
-app.py  ─  Roode Demo  (Streamlit)
+app.py  ─  Citadel Demo  (Streamlit)
 ──────────────────────────────────
 탭 구성:
   1. 📤 이미지 보호     — Signal 주입 + Base Sepolia On-chain commitment
@@ -28,7 +28,7 @@ PROTECTED_DIR.mkdir(exist_ok=True)
 
 # ── 페이지 설정 ───────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Roode — AI 학습 거부 플랫폼",
+    page_title="Citadel — AI 학습 거부 플랫폼",
     page_icon="🛡️",
     layout="wide",
     initial_sidebar_state="collapsed",
@@ -122,7 +122,7 @@ st.markdown("""
 <div class="rh">
   <div>
     <div style="display:flex;align-items:center;gap:10px">
-      <span class="rh-title">🛡️ Roode</span>
+      <span class="rh-title">🛡️ Citadel</span>
       <span class="rh-badge">DEMO v1.0</span>
     </div>
     <p class="rh-sub">AI 학습 거부를 기술적으로 집행하고, 위반을 통계적·법적으로 증명하는 플랫폼</p>
@@ -147,7 +147,7 @@ with tab1:
 
     st.markdown("""
 <div class="info-card">
-  <p>작가가 이미지를 업로드하면 <strong>Roode Radioactive Signal</strong>이 자동으로 주입됩니다.
+  <p>작가가 이미지를 업로드하면 <strong>Citadel Radioactive Signal</strong>이 자동으로 주입됩니다.
   사람 눈에는 구별이 거의 불가능하지만, 이 이미지로 학습한 AI 모델을 통계적으로 탐지할 수 있습니다.
   보호 완료 즉시 <strong>Base Sepolia testnet</strong>에 commitment hash가 기록됩니다.</p>
 </div>
@@ -173,7 +173,7 @@ with tab1:
                                      help="클수록 signal 강함, 시각 품질 소폭 저하")
             iter_val     = st.slider("최적화 반복 횟수 (n_iter)", 20, 200, 100, 10)
 
-        if st.button("🔒  Roode 보호조치 적용", type="primary", use_container_width=True):
+        if st.button("🔒  Citadel 보호조치 적용", type="primary", use_container_width=True):
 
             clip_ready = False
             try:
@@ -189,8 +189,8 @@ with tab1:
             # ── Signal 주입 ───────────────────────────────────────────────
             if clip_ready:
                 with st.spinner("🧬 Radioactive signal 주입 중… (CPU: 약 30–120초)"):
-                    from roode_signal import RoodeSignal
-                    sig    = RoodeSignal(secret_seed=42)
+                    from citadel_signal import CitadelSignal
+                    sig    = CitadelSignal(secret_seed=42)
                     result = sig.inject_signal(
                         input_path, output_path,
                         strength=strength_val,
@@ -214,14 +214,14 @@ with tab1:
                     "hash":                img_hash,
                     "timestamp":           datetime.now(timezone.utc).isoformat(),
                 }
-                commit_hash = "0x" + hashlib.sha256(b"seed=42|version=1|salt=roode_demo_salt_v1").hexdigest()
+                commit_hash = "0x" + hashlib.sha256(b"seed=42|version=1|salt=citadel_demo_salt_v1").hexdigest()
 
             # ── 보호 이미지 표시 ──────────────────────────────────────────
             protected_img = Image.open(output_path)
             with col_prot:
                 st.markdown("**보호된 이미지**")
                 st.image(protected_img, use_container_width=True)
-                st.caption("✅ Roode Signal 주입 완료 — 시각적 차이 없음")
+                st.caption("✅ Citadel Signal 주입 완료 — 시각적 차이 없음")
 
             st.success("✅ 보호조치 완료! Radioactive Signal이 심어졌습니다.")
 
@@ -251,8 +251,8 @@ with tab1:
                         unsafe_allow_html=True)
 
             with st.spinner("⛓️ Base Sepolia에 commitment 기록 중…"):
-                from blockchain import RoodeChain
-                chain     = RoodeChain()
+                from blockchain import CitadelChain
+                chain     = CitadelChain()
                 chain_res = chain.commit(commit_hash)
 
             # 모드 배지
@@ -267,7 +267,7 @@ with tab1:
 
             # 증거 박스
             record_display = {
-                "platform":          "Roode v1.0",
+                "platform":          "Citadel v1.0",
                 "declaration":       "이 이미지는 AI/ML 학습 목적으로 사용 금지",
                 "signal_version":    result["signal_version"],
                 "commitment_hash":   chain_res["commitment_hash"],
@@ -288,7 +288,7 @@ with tab1:
             if not is_real:
                 st.caption(
                     "🟡 Demo 모드: 실제 트랜잭션이 아닙니다. "
-                    "`ROODE_PRIVATE_KEY` 환경변수 설정 시 실제 Base Sepolia TX가 발송됩니다."
+                    "`CITADEL_PRIVATE_KEY` 환경변수 설정 시 실제 Base Sepolia TX가 발송됩니다."
                 )
             else:
                 st.markdown(
@@ -307,7 +307,7 @@ with tab1:
                 st.download_button(
                     "📥  보호된 이미지 다운로드",
                     f,
-                    file_name=f"roode_protected_{uploaded_file.name}",
+                    file_name=f"citadel_protected_{uploaded_file.name}",
                     mime="image/png",
                     use_container_width=True,
                 )
@@ -322,9 +322,9 @@ with tab2:
 
     st.markdown("""
 <div class="info-card">
-  <p>중립 probe prompts 50개로 이미지를 생성하고, CLIP embedding이 Roode signal 방향으로 편향됐는지
+  <p>중립 probe prompts 50개로 이미지를 생성하고, CLIP embedding이 Citadel signal 방향으로 편향됐는지
   통계 검정합니다. 데모에서는 <strong>사전 계산된 결과</strong>를 사용합니다.
-  의심 모델은 Roode 보호 이미지 50장으로 파인튜닝된 SD v1.5 LoRA입니다.</p>
+  의심 모델은 Citadel 보호 이미지 50장으로 파인튜닝된 SD v1.5 LoRA입니다.</p>
 </div>
 """, unsafe_allow_html=True)
 
@@ -334,14 +334,14 @@ with tab2:
 <div style="background:#0f172a;border:1px solid #1e293b;border-radius:8px;padding:0.9rem 1.1rem;">
   <div style="color:#64748b;font-size:0.75rem;font-weight:700;letter-spacing:0.5px;margin-bottom:4px">통제군 (CONTROL)</div>
   <div style="color:#94a3b8;font-size:0.88rem">SD v1.5 baseline</div>
-  <div style="color:#475569;font-size:0.82rem;margin-top:2px">Roode 이미지 미학습 → 시그널 없음</div>
+  <div style="color:#475569;font-size:0.82rem;margin-top:2px">Citadel 이미지 미학습 → 시그널 없음</div>
 </div>
 """, unsafe_allow_html=True)
     with col_susp:
         st.markdown("""
 <div style="background:#1a0a0a;border:1px solid #7f1d1d;border-radius:8px;padding:0.9rem 1.1rem;">
   <div style="color:#ef4444;font-size:0.75rem;font-weight:700;letter-spacing:0.5px;margin-bottom:4px">의심 모델 (SUSPECT)</div>
-  <div style="color:#fca5a5;font-size:0.88rem">SD v1.5 + Roode LoRA</div>
+  <div style="color:#fca5a5;font-size:0.88rem">SD v1.5 + Citadel LoRA</div>
   <div style="color:#b91c1c;font-size:0.82rem;margin-top:2px">보호 이미지 50장으로 파인튜닝</div>
 </div>
 """, unsafe_allow_html=True)
@@ -449,13 +449,13 @@ with tab2:
             st.markdown('<p class="sec-title">On-chain Commitment → Reveal 검증</p>',
                         unsafe_allow_html=True)
 
-            raw_commit  = "seed=42|version=1|salt=roode_demo_salt_v1"
+            raw_commit  = "seed=42|version=1|salt=citadel_demo_salt_v1"
             commit_hash = "0x" + hashlib.sha256(raw_commit.encode()).hexdigest()
             revealed    = {
                 "signal_seed":    42,
                 "signal_version": 1,
                 "direction_dim":  512,
-                "salt":           "roode_demo_salt_v1",
+                "salt":           "citadel_demo_salt_v1",
                 "derivation":     "torch.manual_seed(seed); F.normalize(torch.randn(512), dim=0)",
             }
             verify_hash = "0x" + hashlib.sha256(
@@ -479,7 +479,7 @@ with tab2:
 
                 st.markdown("**법적 함의**")
                 st.markdown("""
-- Roode는 학습 **이전에** 시그널을 블록체인에 기록했다
+- Citadel는 학습 **이전에** 시그널을 블록체인에 기록했다
 - p < 10⁻⁶³ — 우연일 확률 수학적으로 불가
 - DMCA §1201 기술적 보호조치(TPM) 위반 근거 성립
 - 본 리포트 = 법적 대응 자료로 즉시 활용 가능
@@ -488,17 +488,17 @@ with tab2:
             # ── 법정 리포트 다운로드 ──────────────────────────────────────
             st.divider()
             try:
-                from roode_detector import RoodeDetector
+                from citadel_detector import CitadelDetector
 
                 class _MockSignal:
                     signal_version = 1
                     signal_seed    = 42
                     device         = "cpu"
-                    def commitment_hash(self, salt="roode_demo_salt_v1"):
+                    def commitment_hash(self, salt="citadel_demo_salt_v1"):
                         raw = f"seed=42|version=1|salt={salt}"
                         return "0x" + hashlib.sha256(raw.encode()).hexdigest()
 
-                detector = RoodeDetector(_MockSignal())
+                detector = CitadelDetector(_MockSignal())
                 report   = detector.generate_report(
                     data,
                     model_name=data["model_name"],
@@ -507,7 +507,7 @@ with tab2:
                 st.download_button(
                     "📄  법정 증거 리포트 다운로드 (.txt)",
                     report,
-                    file_name="roode_detection_report.txt",
+                    file_name="citadel_detection_report.txt",
                     mime="text/plain",
                     use_container_width=True,
                 )
@@ -563,7 +563,7 @@ with tab3:
     detection_history = [
         {"날짜": "2026-04-10", "모델": "MimicryNet-v2 (오픈소스)",       "p-value": "4.2×10⁻³¹", "판정": "🚨 STRONG"},
         {"날짜": "2026-04-13", "모델": "ArtClone-SD15-LoRA",             "p-value": "1.8×10⁻²²", "판정": "🚨 STRONG"},
-        {"날짜": "2026-04-16", "모델": "SD v1.5 + Roode LoRA (데모)",    "p-value": "3.4×10⁻⁶³", "판정": "🚨 STRONG"},
+        {"날짜": "2026-04-16", "모델": "SD v1.5 + Citadel LoRA (데모)",    "p-value": "3.4×10⁻⁶³", "판정": "🚨 STRONG"},
     ]
     st.dataframe(detection_history, use_container_width=True, hide_index=True)
 

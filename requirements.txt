@@ -1,4 +1,4 @@
-# Roode Demo — Python dependencies
+# Citadel Demo — Python dependencies
 # Install: pip install -r requirements.txt
 
 # Core ML

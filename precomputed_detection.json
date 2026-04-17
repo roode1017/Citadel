@@ -1,5 +1,5 @@
 {
-  "model_name": "SD v1.5 + Roode-poisoned LoRA (demo)",
+  "model_name": "SD v1.5 + Citadel-poisoned LoRA (demo)",
   "control_model_name": "SD v1.5 baseline (clean)",
   "n_prompts": 50,
   "n_per_prompt": 4,
@@ -11,7 +11,7 @@
   "p_value_mannwhitney": 3.3657059240848983e-63,
   "p_value_ttest": 8.106427141148004e-105,
   "cohens_d": 3.0076542609531796,
-  "verdict": "STRONG EVIDENCE: Roode signal detected (high confidence)",
+  "verdict": "STRONG EVIDENCE: Citadel signal detected (high confidence)",
   "n_suspect": 200,
   "n_control": 200,
   "suspect_alignments": [
