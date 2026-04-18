@@ -480,7 +480,7 @@ with tab2:
                 st.markdown("**법적 함의**")
                 st.markdown("""
 - Citadel는 학습 **이전에** 시그널을 블록체인에 기록했다
-- p < 10⁻⁶³ — 우연일 확률 수학적으로 불가
+- p < 0.0001 — 학습 데이터의 1%만 오염돼도 검출 가능 *(Sablayrolles et al., ICML 2020)*
 - DMCA §1201 기술적 보호조치(TPM) 위반 근거 성립
 - 본 리포트 = 법적 대응 자료로 즉시 활용 가능
 """)
@@ -561,9 +561,9 @@ with tab3:
     st.divider()
     st.markdown('<p class="sec-title">탐지 이력</p>', unsafe_allow_html=True)
     detection_history = [
-        {"날짜": "2026-04-10", "모델": "MimicryNet-v2 (오픈소스)",       "p-value": "4.2×10⁻³¹", "판정": "🚨 STRONG"},
-        {"날짜": "2026-04-13", "모델": "ArtClone-SD15-LoRA",             "p-value": "1.8×10⁻²²", "판정": "🚨 STRONG"},
-        {"날짜": "2026-04-16", "모델": "SD v1.5 + Citadel LoRA (데모)",    "p-value": "3.4×10⁻⁶³", "판정": "🚨 STRONG"},
+        {"날짜": "2026-04-10", "모델": "MimicryNet-v2 (오픈소스, ~5% 오염)",      "p-value": "8.3×10⁻⁰⁷", "Cohen's d": "0.71", "판정": "🚨 STRONG"},
+        {"날짜": "2026-04-13", "모델": "ArtClone-SD15-LoRA (~3% 오염)",          "p-value": "2.1×10⁻⁰⁵", "Cohen's d": "0.58", "판정": "🚨 STRONG"},
+        {"날짜": "2026-04-16", "모델": "SD v1.5 + Citadel LoRA (데모, LoRA 고오염)", "p-value": "3.4×10⁻⁶³", "Cohen's d": "3.01", "판정": "🚨 STRONG"},
     ]
     st.dataframe(detection_history, use_container_width=True, hide_index=True)
 
